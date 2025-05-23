@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Digital Time Capsule</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        nav {
+            width: 100%;
+            background-color: #007bff;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            font-size: 18px;
+            text-decoration: none;
+        }
+        #capsule-form {
+            background-color: white;
+            padding: 15px 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 320px;
+        }
+        h2 {
+            text-align: center;
+            font-size: 20px;
+        }
+        form label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        form input, form textarea {
+            width: 100%;
+            padding: 7px;
+            margin-top: 5px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        form button {
+            margin-top: 15px;
+            background-color: #007bff;
+            color: white;
+            padding: 8px;
+            font-size: 14px;
+            width: 100%;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        table {
+            margin-top: 30px;
+            width: 90%;
+            max-width: 800px;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+        table th, table td {
+            padding: 10px 12px;
+            text-align: left;
+            font-size: 14px;
+            border-bottom: 1px solid #ddd;
+        }
+        table th {
+            background-color: #007bff;
+            color: white;
+        }
+        .delete-btn, .editbutton {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        .editbutton {
+            background-color: #28a745;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+<div id="capsule-form" >
+    <h2>{% if page == "edit" %}Edit Capsule{% else %}Create Capsule{% endif %}</h2>
+    <form method="POST" action="{% url 'CapsuleInsertUpdateView' %}?capsule_id={{ capsule_id }}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label>Title:</label>
+        <input type="text" name="title" value="{{ form.title.value|default_if_none:'' }}">
+
+        <label>Unlock Date:</label>
+        <input type="date" name="unlock_date" value="{{ form.unlock_date.value|date:'Y-m-d' }}">
+
+        <label>Email:</label>
+        <input type="email" name="email" value="{{ form.email.value|default_if_none:'' }}">
+
+        <label>Message:</label>
+        <textarea name="message">{{ form.message.value|default_if_none:'' }}</textarea>
+
+        {% if form.instance.media %}
+        <small>Existing file: {{ form.instance.media.name|slice:"14:" }}</small><br>
+        {% endif %}
+        <label>Media:</label>
+        <input type="file" name="media">
+
+        <button type="submit">{% if page == "edit" %}Update{% else %}Save{% endif %}</button>
+    </form>
+</div>
+
+<h2 style="margin-top: 40px; font-size: 18px;">All Capsules</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Unlock Date</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for capsule in capsules %}
+      <tr>
+        <td>{{ capsule.title }}</td>
+        <td>{{ capsule.unlock_date }}</td>
+        <td>
+          <a href="{% url 'CapsuleInsertUpdateView' %}?capsule_id={{ capsule.id }}" class="editbutton">Edit</a>
+          <button class="delete-btn" data-id="{{ capsule.id }}">Delete</button>
+        </td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="3">No capsules found.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $(".editbutton").click(function(){
+      $("#capsule-form").show();
+    });
+
+    $(".delete-btn").click(function() {
+      if (!confirm("Are you sure you want to delete?")) return;
+      const capsuleId = $(this).data("id");
+      $.ajax({
+        url: '/CapsuleDeleteView/', 
+        method: 'POST',
+        data: {
+          'id': capsuleId,
+          'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        success: function(response) {
+          location.reload();
+        },
+        error: function() {
+          alert('Not Deleted');
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>
