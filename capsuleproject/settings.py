@@ -58,7 +58,7 @@ ROOT_URLCONF = 'capsuleproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["C:\\Users\\gayat\\capsuleproject\\capsuleapp\\template"],
+        'DIRS': [os.path.join(BASE_DIR, 'capsuleapp', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
