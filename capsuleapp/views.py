@@ -4,6 +4,8 @@ from .forms import *
 from django.urls import *
 from django.http import JsonResponse
 from django.core.mail import send_mail
+from django.http import HttpResponse
+from django.core.management import call_command
 from django.utils.timezone import now
 
 def CapsuleInsertUpdateView(request):
@@ -37,3 +39,7 @@ def CapsuleDeleteView(request):
         capsule_id = request.POST.get('id')
         capsule = TimeCapsule.objects.get(id=capsule_id).delete()
         return JsonResponse({'status': 'success'})
+
+def run_capsule_email(request):
+    call_command('send_email_capsule')
+    return HttpResponse("✅ Time Capsule emails sent!")
