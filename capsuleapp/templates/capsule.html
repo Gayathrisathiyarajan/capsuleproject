@@ -124,7 +124,7 @@
         <label>Title:</label>
         <input type="text" name="title" value="{{ form.title.value|default_if_none:'' }}">
 
-        <label>Unlock Date:</label>
+        <label>Date:</label>
         <input type="date" name="unlock_date" value="{{ form.unlock_date.value|date:'Y-m-d' }}">
 
         <label>Email:</label>
@@ -148,7 +148,7 @@
   <thead>
     <tr>
       <th>Title</th>
-      <th>Unlock Date</th>
+      <th>Date</th>
       <th>Email</th>
       <th>Actions</th>
     </tr>
@@ -178,7 +178,12 @@
     $(".editbutton").click(function(){
       $("#capsule-form").show();
     });
-
+  const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+      $('input[name="unlock_date"]').attr('min', today);
+      $('input[name="unlock_date"]').attr('max', today);
+      if (!$('input[name="unlock_date"]').val()) {
+        $('input[name="unlock_date"]').val(today);
+    }
     $(".delete-btn").click(function() {
       if (!confirm("Are you sure you want to delete?")) return;
       const capsuleId = $(this).data("id");
