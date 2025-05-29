@@ -1,6 +1,6 @@
 # 🕰️ Digital Time Capsule
 
-📂 **Project Repository**: [Digital Time Capsule](https://github.com/Gayathrisathiyarajan/capsuleproject)
+📂 **Project Repository**: [Digital Time Capsule](https://github.com/Gayathrisathiyarajan/capsuleproject)<br>
 📂 **Live Link**: https://capsuleproject-1.onrender.com/
 ---
 
