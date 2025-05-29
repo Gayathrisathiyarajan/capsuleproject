@@ -1,7 +1,7 @@
 # 🕰️ Digital Time Capsule
 
-📂 **Project Repository**: [Digital Time Capsule](https://github.com/Gayathrisathiyarajan/capsuleproject)
-
+📂 **Project Repository**: [Digital Time Capsule](https://github.com/Gayathrisathiyarajan/capsuleproject)<br>
+📂 **Live Link**: https://capsuleproject-1.onrender.com/
 ---
 
 ## 📌 Description
@@ -13,7 +13,7 @@
 ## 🚀 Features
 
 - Add, Edit, and Delete Capsules  
-- Choose a future unlock date  
+- Choose a unlock date  
 - Upload media files (images, documents, etc.)  
 - Automatically send email on the unlock date  
 - Store a custom message for email delivery  
