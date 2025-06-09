@@ -6,7 +6,7 @@
 
 ## 📌 Description
 
-**Digital Time Capsule** is a Django-based web application that allows users to store messages, media, and memories that can only be unlocked on a future date. The system automatically sends the contents via email to the intended recipient on the specified unlock date.
+**Digital Time Capsule** is a Django-based web application that allows users to store messages, media, and memories that can only be unlocked on a future date. The system automatically sends the contents via email to the intended recipient on the same date.
 
 ---
 
